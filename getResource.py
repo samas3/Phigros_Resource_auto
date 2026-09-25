@@ -178,8 +178,8 @@ def run(path, c):
                 size = 0
                 l = [apk]
                 for key, entry in table:
-                    l.append((key, entry))
-                    info = apk.getinfo("assets/aa/Android/%s" % entry)
+                    l.append((key, entry.split('_')[-1]))
+                    info = apk.getinfo("assets/aa/Android/%s" % entry.split('_')[-1])
                     size += info.file_size
                     if size > 32 * 1024 * 1024:
                         queue_in.put(l)

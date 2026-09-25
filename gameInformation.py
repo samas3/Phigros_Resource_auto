@@ -100,7 +100,6 @@ def run(path, config):
             info.append((item["songId"], item["songName"], item["composer"], item["illustrator"], *item["charter"]))
             table.append((item["songId"], item["songName"].replace('\xa0', ' ').strip(), *list(map(str, item["difficulty"])), item["composer"], item["illustrator"], *item["charter"]))
     reader.readSchema(songBase_schema)
-
     
     with open("difficulty.csv", "w", encoding="utf8", newline='') as f:
         writer = csv.writer(f)
@@ -127,21 +126,6 @@ def run(path, config):
     with open('info.csv', 'w', encoding='utf-8') as f:
         for i in info:
             f.write('\\'.join(i) + '\n')
-    '''
-    key_schema = {"key": str, "a": int, "type": int, "b": int}
-    single = []
-    illustration = []
-    for item in reader.readSchema(key_schema):
-        if item["type"] == 0:
-            single.append(item["key"])
-        elif item["type"] == 2 and item["key"] != "Introduction" and item["key"] not in single:
-            illustration.append(item["key"])
-    with open("single.txt", "w", encoding="utf8") as f:
-        for item in single:
-            f.write("%s\n" % item)
-    with open("illustration.txt", "w", encoding="utf8") as f:
-        for item in illustration:
-            f.write("%s\n" % item)'''
     if config.get('collection', False):
         reader = ByteReader(collection)
         collection_schema = {1: (int, int, int, str, str, str), "key": str, "index": int, 2: (int,), "title": str, 3: (str, str, str, str)}

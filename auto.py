@@ -2,6 +2,7 @@ from androguard.misc import AnalyzeAPK
 from androguard.util import set_log
 import os
 import shutil
+from packaging.version import Version
 import gameInformation
 import getResource
 from compare_file import compare_folders
@@ -28,8 +29,14 @@ print('APK: ', apk_path)
 apk, _, _ = AnalyzeAPK(apk_path)
 apk_version = apk.get_androidversion_name()
 print('APK version: ' + apk_version)
+res = download_apk.main(1)
+data_ver = Version(res)
+apk_ver = Version(apk_version)
 if apk_version == version:
     print('Version match')
+    exit(0)
+if apk_ver < data_ver:
+    print('Find update! Please download the latest version')
     exit(0)
 input("Start copying data... Press enter to continue")
 
