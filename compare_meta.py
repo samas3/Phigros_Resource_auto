@@ -1,17 +1,5 @@
 import csv
 
-def normalize_data(data):
-    """Normalize data length to 12 fields."""
-    if len(data) == 8:
-        data.insert(3, '0')
-        data.insert(3, '0')
-        data.append('0')
-        data.append('0')
-    if len(data) == 10:
-        data.insert(4, '0')
-        data.append('0')
-    return data
-
 def compare_meta(file1, file2, exclude_legacy=True, exclude_zero=True):
     """
     Compare two CSV files containing song metadata.
@@ -33,14 +21,14 @@ def compare_meta(file1, file2, exclude_legacy=True, exclude_zero=True):
         reader = csv.reader(f)
         for row in reader:
             if row:
-                dic2[row[1]] = normalize_data(row[2:])
+                dic2[row[0]] = row[1:]
     
     # Read file1
     with open(file1, 'r', encoding='utf-8') as f:
         reader = csv.reader(f)
         next(reader)
         for row in reader:
-            if row[1]:
+            if row[3]:
                 if row[0] in dic2:
                     dic1[row[0]] = row[1:]
                 else:
@@ -61,7 +49,7 @@ def compare_meta(file1, file2, exclude_legacy=True, exclude_zero=True):
     for key in dic1:
         if key in dic2:
             for i in range(len(dic1[key])):
-                should_exclude = lst[i] in exclude or (exclude_zero and dic2[key][i] == '0')
+                should_exclude = lst[i] in exclude or (exclude_zero and dic2[key][i] == '')
                 if dic1[key][i] != dic2[key][i] and not should_exclude:
                     print(f'{key} {lst[i]}: {dic1[key][i]} -> {dic2[key][i]}')
                     diff[key + str(i)] = dic2[key][i]

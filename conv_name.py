@@ -2,18 +2,18 @@ import os
 import csv
 def conv(path):
     infocsv = []
-    with open('info_new.csv', encoding='utf-8') as f:
+    with open('info.csv', encoding='utf-8') as f:
         reader = csv.reader(f)
         for i in reader:
             infocsv.append(i)
     dic = {}
-    changes = {'Cipher : /2&//<|0': 'Cipher', 'ρars/ey': 'ρarsley', 'Labyrinth in Kowloon: Walled World': 'Labyrinth in Kowloon Walled World', 'valor/starcross': 'valor_starcross', 'Stardust:RAY': 'StardustRAY'}
+    changes = {'Cipher : /2&//<|0': 'Cipher', 'ρars/ey': 'ρarsley', 'Labyrinth in Kowloon: Walled World': 'Labyrinth in Kowloon Walled World', 'valor/starcross': 'valor_starcross', 'Stardust:RAY': 'StardustRAY', 'What do you want more than a Happy ending?': 'What do you want more than a Happy ending'}
     for i in infocsv:
         n1, n2 = i[:2]
         n1 = n1.strip()
         n2 = n2.strip().replace('\xa0', ' ')
         if 'AnotherMe' in n1:
-            if n1 == 'AnotherMe.NeutralMoon':
+            if 'NeutralMoon' in n1:
                 dic[n1] = 'Another Me - Rising Sun Traxx'
             else:
                 dic[n1] = 'Another Me - KALPA'
@@ -24,6 +24,8 @@ def conv(path):
     for i in os.listdir(path):
         name = '.'.join(i.split('.')[:-1])
         ext = i.split('.')[-1]
+        if 'WhatdoyouwantmorethanaHappyending' in name and 'png' in ext:
+            os.rename(path + '/' + i, path + '/' + 'What do you want more than a Happy ending_' + name[-2:] + '.' + ext)
         if name in dic:
             os.rename(path + '/' + i, path + '/' + dic[name] + '.' + ext)
             print(f'{name} -> {dic[name]}')

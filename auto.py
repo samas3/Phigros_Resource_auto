@@ -21,15 +21,15 @@ print('Data version: ' + version)
 set_log("WARNING")
 apks = [i for i in os.listdir('.') if '.apk' in i]
 if len(apks) == 0:
-    print('请先下载apk')
+    print('APK not found! Ready to download... Press enter to continue')
     download_apk.main()
-    exit(0)
+    apks = [i for i in os.listdir('.') if '.apk' in i]
 apk_path = apks[0]
 print('APK: ', apk_path)
 apk, _, _ = AnalyzeAPK(apk_path)
 apk_version = apk.get_androidversion_name()
 print('APK version: ' + apk_version)
-res = download_apk.main(1)
+res = download_apk.get_ver()
 data_ver = Version(res)
 apk_ver = Version(apk_version)
 if apk_version == version:
