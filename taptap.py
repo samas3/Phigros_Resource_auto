@@ -50,7 +50,7 @@ def version(appid):
         headers={"User-Agent": "okhttp/3.12.1"}
     )
     r = json.load(conn.getresponse())
-    return r['data']['download']['version']
+    return r['data']['download']['apk']['version_name']
 
 
 # Phigros app id = 165287
